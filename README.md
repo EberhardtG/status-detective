@@ -1,130 +1,263 @@
+# 🧪 Status Detective — HTTP Status Code Exploration with JSONPlaceholder
 
-# 🧪 Status Detective — HTTP Status Exploration with JSONPlaceholder  
-A Python project that explores HTTP status codes using the JSONPlaceholder REST API.  
-This script performs multiple API calls—including valid requests, nonexistent resources, deletion, invalid endpoints, and nested resources—and prints formatted status reports for each.
+A Python project that explores common HTTP status codes using the JSONPlaceholder REST API.
 
-It also includes a reusable **`make_request()`** function that accepts any HTTP method and URL, performs the request safely, and returns a consistent, human‑readable status summary.
-
----
-
-## 🚀 Features  
-- **GET existing resource**  
-- **GET nonexistent resource**  
-- **DELETE existing resource**  
-- **GET invalid endpoint**  
-- **GET nested resource**  
-- Centralized request handler (`make_request`)  
-- Safe error handling using `try/except`  
-- `timeout=10` to prevent hanging requests  
-- `raise_for_status()` for professional error detection  
-- Clean, formatted status output  
+The script performs multiple API requests against valid and invalid endpoints, examines the returned status codes, categorizes the responses, and prints a formatted status report for each request. This project provides hands-on practice with REST APIs, HTTP methods, and understanding how web servers communicate success and failure to clients.
 
 ---
 
-## 📁 Project Structure  
-```
-status_detective.py   # Main script performing all API tests
+## 🚀 Features
+
+- GET existing resource
+- GET nonexistent resource
+- POST new resource with valid data
+- DELETE existing resource
+- GET invalid endpoint
+- GET nested resource
+- Automatic HTTP status categorization
+- Human-readable status descriptions
+- Reusable request reporting function
+- Clean, formatted console output
+
+---
+
+## 📁 Project Structure
+
+```text
+status_detective.py   # Main application
 README.md             # Project documentation
 ```
 
 ---
 
-## 🔧 Technologies Used  
-- Python 3  
-- requests library  
-- JSONPlaceholder API  
+## 🔧 Technologies Used
+
+- Python 3
+- requests
+- JSONPlaceholder API
 
 ---
 
-## 📦 Installation  
+## 📦 Installation
+
 Clone the repository:
 
-```
+```bash
 git clone https://github.com/yourusername/status-detective.git
 cd status-detective
 ```
 
 Install dependencies:
 
-```
+```bash
 pip install requests
 ```
 
-Run the script:
+Run the program:
 
-```
+```bash
 python status_detective.py
 ```
 
 ---
 
-## 🧠 How It Works  
+## 🧠 What the Program Tests
 
-### 1️⃣ GET `/posts/1` — Valid Resource  
-Retrieves an existing post.  
-Prints status code, reason, and a description confirming success.
+### 1. GET /posts/1
 
-### 2️⃣ GET `/posts/99999` — Nonexistent Resource  
-Triggers a `404 Not Found`.  
-Handled safely using `try/except` and prints a friendly explanation.
+Retrieves a valid post from the API.
 
-### 3️⃣ DELETE `/posts/1` — Successful Delete  
-JSONPlaceholder simulates deletion and returns a success status.  
-The script prints a confirmation message.
+Expected Status:
 
-### 4️⃣ GET `/invalidendpoint` — Bad URI  
-Demonstrates how invalid endpoints return `404`.  
-Handled gracefully with descriptive output.
+```text
+200 OK
+```
 
-### 5️⃣ GET `/users/1/todos` — Nested Resource  
-Retrieves all todos belonging to user 1.  
-Shows how REST APIs expose hierarchical relationships.
+Category:
 
-### 6️⃣ Reusable Request Function  
-The `make_request()` function accepts:
-
-- HTTP method  
-- URL  
-- Optional JSON data  
-
-It performs the request with:
-
-- `timeout=10`  
-- `raise_for_status()`  
-- formatted status reporting  
-- safe error handling  
-
-This eliminates repeated code and mirrors real‑world API client design.
+```text
+Success
+```
 
 ---
 
-## 📝 Example Output  
-Each request prints:
+### 2. GET /posts/99999
 
-- HTTP method  
-- URI  
-- Status code  
-- Reason phrase  
-- Human‑readable description  
+Attempts to retrieve a post that does not exist.
 
-This makes the script ideal for learning how APIs behave under different conditions.
+Expected Status:
 
----
+```text
+404 Not Found
+```
 
-## 🎯 Learning Outcomes  
-By completing this project, you gain experience with:
+Category:
 
-- REST API fundamentals  
-- HTTP status codes  
-- Defensive programming  
-- Error handling with `raise_for_status()`  
-- Timeouts and network reliability  
-- Writing reusable API utilities  
-- Understanding nested resources  
-- Producing clean, consistent output  
+```text
+Client Error
+```
 
 ---
 
-## 📄 License  
-This project is open‑source under the MIT License.
+### 3. POST /posts
 
+Creates a new post using valid JSON data.
+
+Example Data:
+
+```json
+{
+  "title": "Test Post",
+  "body": "Assignment Submission",
+  "userId": 1
+}
+```
+
+Expected Status:
+
+```text
+201 Created
+```
+
+Category:
+
+```text
+Success
+```
+
+---
+
+### 4. DELETE /posts/1
+
+Sends a DELETE request to remove a resource.
+
+Expected Status:
+
+```text
+200 OK
+```
+
+Category:
+
+```text
+Success
+```
+
+---
+
+### 5. GET /invalidendpoint
+
+Attempts to access an endpoint that does not exist.
+
+Expected Status:
+
+```text
+404 Not Found
+```
+
+Category:
+
+```text
+Client Error
+```
+
+---
+
+### 6. GET /users/1/todos
+
+Retrieves a nested resource showing todos associated with User 1.
+
+Expected Status:
+
+```text
+200 OK
+```
+
+Category:
+
+```text
+Success
+```
+
+---
+
+## 📊 Status Categories
+
+The application automatically classifies status codes:
+
+| Range | Category |
+|---------|------------|
+| 200-299 | Success |
+| 400-499 | Client Error |
+| 500-599 | Server Error |
+| Other | Unknown/Other |
+
+---
+
+## 🔄 Reusable Status Report Function
+
+The project includes a reusable function that accepts:
+
+- HTTP Method
+- Endpoint
+- Optional JSON Data
+
+The function:
+
+- Sends the request
+- Retrieves the returned status code
+- Categorizes the response
+- Generates a user-friendly description
+- Prints a formatted report
+
+This reduces duplicate code and follows good software development practices.
+
+---
+
+## 📝 Example Output
+
+```text
+GET /posts/1
+  Status: 200 (Success)
+  Description: Request succeeded — resource returned
+
+GET /posts/99999
+  Status: 404 (Client Error)
+  Description: Resource not found
+
+POST /posts
+  Status: 201 (Success)
+  Description: Resource created successfully
+```
+
+---
+
+## 🎯 Learning Outcomes
+
+Through this project, I gained experience with:
+
+- REST API fundamentals
+- HTTP request methods
+  - GET
+  - POST
+  - DELETE
+- HTTP status codes
+- API testing and troubleshooting
+- Python requests library
+- Writing reusable functions
+- Response validation
+- Clean console output formatting
+
+---
+
+## 📚 API Resource
+
+This project uses the free test API provided by JSONPlaceholder:
+
+https://jsonplaceholder.typicode.com
+
+---
+
+## 📄 License
+
+This project is provided for educational purposes as part of Python and API development coursework.
